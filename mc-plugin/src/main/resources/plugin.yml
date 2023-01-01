@@ -1,0 +1,8 @@
+name: TerrainGenerator
+version: '${project.version}'
+main: me.mrpeterss.terrain.Main
+api-version: 1.18
+authors: [ MrPeterss ]
+description: A simple tool for generating real world terrain in minecraft
+commands:
+  generator:
