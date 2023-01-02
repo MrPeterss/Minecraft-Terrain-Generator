@@ -7,6 +7,8 @@
   },
   "dependencies": {
     "@react-google-maps/api": "^2.17.1",
+    "@react-three/drei": "^9.48.6",
+    "@react-three/fiber": "^8.9.2",
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0"

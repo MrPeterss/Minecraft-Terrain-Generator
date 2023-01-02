@@ -9,7 +9,6 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         getCommand("generator").setExecutor(new generator());
-
     }
 
     @Override
