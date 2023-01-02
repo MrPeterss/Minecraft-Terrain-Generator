@@ -1,10 +1,12 @@
-package me.mrpeterss.terrain;
+package me.mrpeterss.terrain.utils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +15,27 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Utils {
+
+
+
+    public static BufferedImage getTileImg(int x, int y, int zoom) throws IOException {
+        return getPngFromLink("https://tile.nextzen.org/tilezen/terrain/v1/512/terrarium/" + zoom + "/" + x + "/" + y + ".png?api_key=***REMOVED***");
+    }
+
+    //get a png from a http req url
+    public static BufferedImage getPngFromLink(String url) throws IOException {
+        URL imgurl = new URL(url);
+        return ImageIO.read(imgurl.openStream());
+    }
+
+    //turn degrees into tile
+    public static int[] deg2tile(double lat_deg, double lon_deg, int zoom) {
+        double lat_rad = Math.toRadians(lat_deg);
+        double n = Math.pow(2, zoom);
+        int xtile = (int) ((lon_deg + 180.0) / 360.0 * n);
+        int ytile = (int) ((1.0 - Math.log(Math.tan(lat_rad) + 1.0 / Math.cos(lat_rad)) / Math.PI) / 2.0 * n);
+        return new int[]{xtile, ytile};
+    }
 
     //get a JSONObject from a http req url
     public static JSONObject getJsonFromLink(String url) throws IOException {

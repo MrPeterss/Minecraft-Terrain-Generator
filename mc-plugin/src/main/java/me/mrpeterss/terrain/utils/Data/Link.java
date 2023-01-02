@@ -1,9 +1,10 @@
-package me.mrpeterss.terrain;
+package me.mrpeterss.terrain.utils.Data;
 
 
 // a link is data that the player will get from inputting a key with a command that will tell the plugin the information needed.
 
-import org.bukkit.ChatColor;
+import me.mrpeterss.terrain.utils.Data.BoundingBox;
+import me.mrpeterss.terrain.utils.Utils;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONObject;
 
@@ -37,7 +38,7 @@ public class Link {
         JSONObject json_box = (JSONObject) response.get("bbox");
 
         //set the variables
-        selectionBBox = new BoundingBox((Float) json_box.get("east"), (Float) json_box.get("south"), (Float) json_box.get("west"), (Float) json_box.get("north"));
+        selectionBBox = new BoundingBox((Double) json_box.get("east"), (Double) json_box.get("south"), (Double) json_box.get("west"), (Double) json_box.get("north"));
         selectionZoomLvl = (int) json_box.get("zoom");
 
     }

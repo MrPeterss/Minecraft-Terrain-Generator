@@ -11,7 +11,7 @@ let dataMap = new Map<string, Data>([
         west: -73.840828,
         north: 42.827261
       },
-      zoom: 10
+      zoom: 11
     }
   ],
   [
