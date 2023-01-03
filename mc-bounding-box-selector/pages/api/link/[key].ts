@@ -6,12 +6,12 @@ let dataMap = new Map<string, Data>([
     "dFbSegXflExC", 
     {
       bbox: {
-        east: -73.894901,
-        south: 42.794771,
-        west: -73.840828,
-        north: 42.827261
+        east: -73.855917,
+        south: 42.811320,
+        west: -73.915990,
+        north: 42.841914
       },
-      zoom: 11
+      zoom: 14
     }
   ],
   [

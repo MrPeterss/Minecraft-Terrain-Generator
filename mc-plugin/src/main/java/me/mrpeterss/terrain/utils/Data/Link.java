@@ -25,6 +25,7 @@ public class Link {
 
     public void setVars(String hyperlink, Player player) throws IOException {
         //get the response of the request
+        System.out.println("Link: "+"http://localhost:3000/api/link/"+hyperlink);
         JSONObject response = Utils.getJsonFromLink("http://localhost:3000/api/link/"+hyperlink);
 
         if (response.toJSONString().equalsIgnoreCase("bad_key")) {
@@ -39,7 +40,7 @@ public class Link {
 
         //set the variables
         selectionBBox = new BoundingBox((Double) json_box.get("east"), (Double) json_box.get("south"), (Double) json_box.get("west"), (Double) json_box.get("north"));
-        selectionZoomLvl = (int) json_box.get("zoom");
+        selectionZoomLvl = ((Long) response.get("zoom")).intValue();
 
     }
 }

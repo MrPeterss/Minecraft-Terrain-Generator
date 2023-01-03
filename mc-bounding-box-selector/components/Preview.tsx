@@ -38,7 +38,13 @@ export default function Preview (props: PreviewProps) {
                 
                 <GrassBlock x={0} y={0} z={0} scale={scale}/>
                 <GrassBlock x={1} y={0} z={0} scale={scale}/>
-                <GrassBlock x={1} y={0} z={1} scale={scale}/>
+                <GrassBlock x={0} y={0} z={1} scale={scale}/>
+                <GrassBlock x={2} y={0} z={1} scale={scale}/>
+                <GrassBlock x={3} y={0} z={1} scale={scale}/>
+                <GrassBlock x={4} y={0} z={1} scale={scale}/>
+                <GrassBlock x={1} y={0} z={2} scale={scale}/>
+                <GrassBlock x={1} y={0} z={4} scale={scale}/>
+                <GrassBlock x={1} y={0} z={5} scale={scale}/>
             </PresentationControls>
         </Suspense>
     </Canvas>

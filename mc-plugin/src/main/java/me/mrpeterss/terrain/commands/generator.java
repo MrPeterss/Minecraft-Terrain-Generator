@@ -43,14 +43,17 @@ public class generator implements @Nullable CommandExecutor {
         //generate the images based on the data
         try {images = new Images(data);}
         catch (IOException e) { throw new RuntimeException(e); }
+        System.out.println("Images per Row " + images.images[0].length);
+        System.out.println("Total Image Rows " + images.images.length);
 
         //create a map of each image and its heights
         HashMap<int[], int[][]> heights = new HashMap<>();
 
         for (int i=0; i<images.images.length;i++) {
-            for (int j=0; i<images.images[i].length; j++) {
+            for (int j=0; j<images.images[i].length; j++) {
                 HeightHandler heightHandler = new HeightHandler(images.images[i][j]);
-                heights.put(new int[]{j, i}, heightHandler.getHeight());
+                System.out.println("Square: " + i +", " + j);
+                heights.put(new int[]{i, j}, heightHandler.getHeight());
             }
         }
 

@@ -17,11 +17,24 @@ import java.util.Random;
 
 public class CustomChunkGenerator extends ChunkGenerator {
 
-    private int[][] heights;
+    public int[][] heights;
     private int max_height;
     private int min_height;
 
     public CustomChunkGenerator(HashMap<int[], int[][]> heights_map) throws IOException {
+
+        int[][] tiles = new int[heights_map.keySet().size()][];
+        tiles = heights_map.keySet().toArray(tiles);
+
+        int[] maxXY = {0, 0};
+        for (int[] tile : tiles) {
+            if (tile[0] > maxXY[0]) maxXY[0] = tile[0];
+            if (tile[1] > maxXY[1]) maxXY[1] = tile[1];
+        }
+
+        System.out.println("Max X and Y: " + maxXY[0]+", "+maxXY[1]);
+
+        heights = new int[(maxXY[1]+1)*512][(maxXY[1]+1)*512];
 
         max_height = 0;
         min_height = 0;
@@ -30,8 +43,8 @@ public class CustomChunkGenerator extends ChunkGenerator {
 
             int[][] current = heights_map.get(pos);
 
-            for (int x = 0; x < heights.length; x++) {
-                for (int y = 0; y < heights[0].length; y++) {
+            for (int x = 0; x < current.length; x++) {
+                for (int y = 0; y < current[0].length; y++) {
                     int height = current[y][x];
                     heights[512*pos[1]+y][512*pos[0]+x] = height;
                     if (height > max_height) max_height = height;
@@ -49,6 +62,7 @@ public class CustomChunkGenerator extends ChunkGenerator {
             for (int z = 0; z < 16; z++) {
                 int height = getBlockHeight(heights,chunkX*16+x,chunkZ*16+z,min_height,max_height);
                 for (int y = 0; y < height; y++) {
+
                     chunkData.setBlock(x, y, z, Material.STONE);
                 }
             }
@@ -66,7 +80,7 @@ public class CustomChunkGenerator extends ChunkGenerator {
         if (z >= array.length || z < 0 || x >= array[z].length || x < 0) return 0;
 
         int real_height = array[z][x];
-        return scale(real_height, min, max, 64, 128);
+        return scale(real_height, min, max, 64, 256);
     }
 
     private int scale(int originalNumber, int minOriginal, int maxOriginal, int minScaled, int maxScaled ) {

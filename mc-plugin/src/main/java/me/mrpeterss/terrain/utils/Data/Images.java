@@ -22,17 +22,25 @@ public class Images {
 
         ArrayList<ArrayList<int[]>> tiles = new ArrayList<>();
 
+        System.out.println("Left x: " + downLeftTile[0]);
+        System.out.println("Right x: " + upRightTile[0]);
+
+        System.out.println("Down y: " + downLeftTile[1]);
+        System.out.println("Up y: " + upRightTile[1]);
+
         //get all tiles in bbox selection
-        for (int i = downLeftTile[0]; i >= upRightTile[0]; i--) {
+        for (int y = downLeftTile[1]; y >= upRightTile[1]; y--) {
             ArrayList<int[]> lons = new ArrayList<>();
-            for (int u = downLeftTile[1]; u <= upRightTile[1]; u++) {
-                lons.add(new int[]{i, u});
+            for (int x = downLeftTile[0]; x <= upRightTile[0]; x++) {
+                System.out.println("Tile: " + x + ", " + y);
+                lons.add(new int[]{x, y});
             }
             tiles.add(lons);
         }
+        System.out.println("Total Tiles: " + tiles.size()*tiles.get(0).size());
 
         //could be backwards???
-        images = new BufferedImage[tiles.size()][tiles.get(0).size()];
+        images = new BufferedImage[tiles.get(0).size()][tiles.size()];
         getImages(tiles);
 
     }
@@ -40,7 +48,7 @@ public class Images {
     public void getImages(ArrayList<ArrayList<int[]>> tiles) throws IOException {
         for (int i = 0; i < tiles.size(); i++) {
             for (int j = 0; j < tiles.get(i).size(); j++) {
-                images[i][j] = getImg(tiles.get(i).get(j));
+                images[j][i] = getImg(tiles.get(i).get(j));
             }
         }
     }

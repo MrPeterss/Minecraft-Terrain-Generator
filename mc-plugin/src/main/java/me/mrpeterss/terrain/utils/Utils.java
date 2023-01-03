@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 
 public class Utils {
 
@@ -23,9 +24,11 @@ public class Utils {
     }
 
     //get a png from a http req url
-    public static BufferedImage getPngFromLink(String url) throws IOException {
-        URL imgurl = new URL(url);
-        return ImageIO.read(imgurl.openStream());
+    public static BufferedImage getPngFromLink(String stringUrl) throws IOException {
+        URL url = new URL(stringUrl);
+        URLConnection connection = url.openConnection();
+        InputStream inputStream = connection.getInputStream();
+        return ImageIO.read(inputStream);
     }
 
     //turn degrees into tile
