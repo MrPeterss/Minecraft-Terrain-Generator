@@ -6,10 +6,11 @@ import me.mrpeterss.terrain.utils.Utils;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Images {
 
-    public BufferedImage[][] images;
+    public HashMap<int[], BufferedImage> images = new HashMap<>();
 
     private int zoom;
 
@@ -33,27 +34,10 @@ public class Images {
             ArrayList<int[]> lons = new ArrayList<>();
             for (int x = downLeftTile[0]; x <= upRightTile[0]; x++) {
                 System.out.println("Tile: " + x + ", " + y);
-                lons.add(new int[]{x, y});
+                images.put(new int[]{x, y}, Utils.getTileImg(x, y, zoom));
             }
-            tiles.add(lons);
         }
         System.out.println("Total Tiles: " + tiles.size()*tiles.get(0).size());
 
-        //could be backwards???
-        images = new BufferedImage[tiles.get(0).size()][tiles.size()];
-        getImages(tiles);
-
-    }
-
-    public void getImages(ArrayList<ArrayList<int[]>> tiles) throws IOException {
-        for (int i = 0; i < tiles.size(); i++) {
-            for (int j = 0; j < tiles.get(i).size(); j++) {
-                images[j][i] = getImg(tiles.get(i).get(j));
-            }
-        }
-    }
-
-    public BufferedImage getImg(int[] tile) throws IOException {
-        return Utils.getTileImg(tile[0],tile[1], zoom);
     }
 }

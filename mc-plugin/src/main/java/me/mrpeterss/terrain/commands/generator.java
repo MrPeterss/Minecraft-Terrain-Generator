@@ -32,7 +32,7 @@ public class generator implements @Nullable CommandExecutor {
         }
 
         Link data;
-        //Generate the link;
+        //generate the data;
         try { data = new Link(args[0],player); }
         catch (IOException e) { throw new RuntimeException(e); }
 
