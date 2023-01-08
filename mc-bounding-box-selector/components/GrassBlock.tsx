@@ -1,40 +1,90 @@
 import { useTexture } from '@react-three/drei';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { InstancedMesh, LinearMipMapLinearFilter, MeshPhongMaterial, NearestFilter, RepeatWrapping, TextureLoader } from 'three';
+import GetHeights from '../scripts/GetHeights';
 
 type GrassBlockProps = {
     x: number;
     y: number;
     z: number;
     scale: number;
+    cubes: number;
+    subdivisionsX: number;
+    subdivisionsZ: number;
 }
 
 export default function GrassBlock(props:GrassBlockProps) {
-
+    const ref = useRef<InstancedMesh>(null!);
+    const matRef = useRef<MeshPhongMaterial>(null!);
     const scale = props.scale;
+    const cubes = props.cubes;
+    const subdivisionsX = props.subdivisionsX;
+    const subdivisionsZ = props.subdivisionsZ;
 
-    // Hold state for hovered and clicked events.
-    const [isDown, down] = useState(false);
+    const bottom = useTexture("/grass/" + "dirt" + ".png");    
+    bottom.magFilter = NearestFilter;
+    bottom.minFilter = LinearMipMapLinearFilter;
+    bottom.repeat.set(cubes,cubes);
+    bottom.wrapS = bottom.wrapT = RepeatWrapping;
 
-    // Define Textures
-    const top = useTexture("/grass/" + "top" + ".jpg");
-    const side = useTexture("/grass/" + "side" + ".jpg");
-    const bottom = useTexture("/grass/" + "bottom" + ".jpg");
-    const mesh = useRef();
+    // const [imageUrl, setImageUrl] = useState('');
+    // const [tempImageUrl, setTempImageUrl] = useState('');
+
+    // useEffect(() => {
+    //     const fetchImage = async () => {
+    //         setTempImageUrl(await GetHeights(13, 2414, 3015));
+    //     };
+    //     fetchImage();       
+    // }, []);
+
+    // useEffect(() => {
+    //     console.log("WORKING");
+    //     const image = new Image();
+    //     image.src = tempImageUrl;
+
+    //      // Wait for the image to load
+    //      image.onload = () => {
+    //         image.src = tempImageUrl;
+    //         // Create a canvas element
+    //         const canvas = document.createElement("canvas");
+    //         const ctx = canvas.getContext("2d")!;
+
+    //         // Set the canvas dimensions to the same as the image
+    //         canvas.width = image.width;
+    //         canvas.height = image.height;
+
+    //         // Get ImageData from the image
+    //         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            
+    //         // Loop through the pixels and modify the pixel values
+    //         for (let i = 0; i < imageData.data.length; i += 4) {
+    //             let grey = (imageData.data[i] * 256 + imageData.data[i+1] + imageData.data[i+2] / 256) - 32768;
+    //             imageData.data[i] = grey;   // Set the red value
+    //             imageData.data[i+1] = grey;   // Set the green value
+    //             imageData.data[i+2] = grey;   // Set the blue value
+    //             imageData.data[i+3] = 255;   // Set the alpha value
+    //         }
+
+    //         // Put the modified ImageData back onto the canvas
+    //         ctx.putImageData(imageData, 0, 0);
+    //         // Get the new image URL
+    //         const newImageURL = canvas.toDataURL();
+    //         setImageUrl(newImageURL);
+
+    //         console.log(newImageURL);
+    //     };
 
 
-    return (
-                <mesh
-                position={[props.x*scale, props.y*scale, props.z*scale]}
-                onPointerDown={(event) => down(true)}
-                onPointerUp={(event) => down(false)}
-                > 
-                    <boxBufferGeometry attach="geometry" args={[scale, scale, scale]} />
-                    <meshStandardMaterial attach="material-0" map={side} />
-                    <meshStandardMaterial attach="material-1" map={side} />
-                    <meshStandardMaterial attach="material-2" map={top} />
-                    <meshStandardMaterial attach="material-3" />
-                    <meshStandardMaterial attach="material-4" map={side} />
-                    <meshStandardMaterial attach="material-5" map={side} />
-                </mesh>
+    //     const height = new TextureLoader().load(imageUrl);
+    //     matRef.current.displacementMap = height;
+    //     matRef.current.displacementScale = 1;
+    //     matRef.current.needsUpdate = true;
+    // }, [tempImageUrl]);
+
+    return ( 
+        <mesh ref={ref} position={[props.x*subdivisionsX*scale,props.y,props.z*subdivisionsX*scale]} rotation={[-Math.PI/2,0,0]} > 
+            <planeBufferGeometry attach="geometry" args={[scale*cubes, scale*cubes,subdivisionsX,subdivisionsZ]} />
+            <meshPhongMaterial ref={matRef} wireframe />
+        </mesh>
     );
 }

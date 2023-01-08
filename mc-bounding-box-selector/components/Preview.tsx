@@ -1,51 +1,67 @@
 import { useRef, useState, Suspense } from 'react'
 import { Canvas, useFrame, useLoader } from '@react-three/fiber'
 import GrassBlock from './GrassBlock';
-import { PresentationControls } from '@react-three/drei';
+import { OrbitControls, PresentationControls, useTexture } from '@react-three/drei';
+import { PlaneGeometry, Vector3 } from 'three';
 
 type PreviewProps = {
-    className?: string;
+    className?: string; 
 }
 
 export default function Preview (props: PreviewProps) {
   // This reference gives us direct access to the THREE.Mesh object.
   const ref = useRef()  
 
-  const [scale, setScale] = useState(0.4);
+  const [scale, setScale] = useState(0.2);
 
   // Return the view.
   // These are regular three.js elements expressed in JSX.
-    //onWheel={(e) => onWheel(e)}
+  //onWheel={(e) => onWheel(e)}
+
+  var heights:number[][]=[ 
+    [1, 1, 1, 1, 1, 1, 5],
+    [1, 2, 1, 1, 1, 1, 5]
+  ]
+
+  // function getSubdivisionsX(arr:number[][]):number {
+  //   var subdivisions = 0;
+  //   for (var x = 0; x < arr.length; x++) {
+  //     for (var z = 0; z < arr[x].length; z++) {     
+  //       if (x==0 || x==arr.length-1 || arr[x][z] != arr[x-1][z]) {
+  //         subdivisions+=2;
+  //       } else if (arr[x][z] == arr[x-1][z] && arr[x][z] != arr[x+1][z]) {
+  //         subdivisions++;
+  //       } 
+  //     }
+  //   }
+  //   console.log("subx", subdivisions);
+  //   return subdivisions;
+  // }
+
+  // function getSubdivisionsZ(arr:number[][]):number {
+  //   var subdivisions:number = 0;
+  //   for (var x = 0; x < arr.length; x++) {
+  //     for (var z = 0; z < arr[x].length; z++) {     
+  //       if (z==0 || z==arr[x].length-1 || arr[x][z] != arr[x][z-1]) {
+  //         subdivisions+=2;
+  //       } else if (arr[x][z] == arr[x][z-1] && arr[x][z] != arr[x][z+1]) {
+  //         subdivisions++;
+  //       } 
+  //     }
+  //   }
+  //   console.log("subz", subdivisions);
+  //   return subdivisions;
+  // }
+  
+
     
+  
   return (
     <Canvas >
-        <ambientLight intensity={0.5} />      
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />      
-        <pointLight position={[-10, -10, -10]} />
+        <ambientLight intensity={0.8} />     
         <Suspense fallback={null}>
-            <PresentationControls
-                enabled={true} // the controls can be disabled by setting this to false
-                global={true} // Spin globally or by dragging the model
-                cursor={true} // Whether to toggle cursor style on drag
-                snap={false} // Snap-back to center (can also be a spring config)
-                speed={2} // Speed factor
-                zoom={1} // Zoom factor when half the polar-max is reached
-                rotation={[0, Math.PI/4, 0]} // Default rotation
-                polar={[Math.PI/6, Math.PI/6]} // Vertical limits
-                azimuth={[-Infinity, Infinity]} // Horizontal limits
-                config={{ mass: 1, tension: 170, friction: 20 }} // Spring config
-            >
-                
-                <GrassBlock x={0} y={0} z={0} scale={scale}/>
-                <GrassBlock x={1} y={0} z={0} scale={scale}/>
-                <GrassBlock x={0} y={0} z={1} scale={scale}/>
-                <GrassBlock x={2} y={0} z={1} scale={scale}/>
-                <GrassBlock x={3} y={0} z={1} scale={scale}/>
-                <GrassBlock x={4} y={0} z={1} scale={scale}/>
-                <GrassBlock x={1} y={0} z={2} scale={scale}/>
-                <GrassBlock x={1} y={0} z={4} scale={scale}/>
-                <GrassBlock x={1} y={0} z={5} scale={scale}/>
-            </PresentationControls>
+          <OrbitControls minDistance={50} maxDistance={100}/>
+          <GrassBlock x={0} y={0} z={0} scale={scale} cubes={256} subdivisionsX={64} subdivisionsZ={64} />
         </Suspense>
     </Canvas>
   )

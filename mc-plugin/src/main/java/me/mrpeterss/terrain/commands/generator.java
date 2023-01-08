@@ -1,10 +1,12 @@
 package me.mrpeterss.terrain.commands;
 
 import me.mrpeterss.terrain.CustomChunkGenerator;
+import me.mrpeterss.terrain.Main;
 import me.mrpeterss.terrain.utils.Data.Images;
 import me.mrpeterss.terrain.utils.Data.Link;
 import me.mrpeterss.terrain.utils.HeightHandler;
 import me.mrpeterss.terrain.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.command.Command;
@@ -14,7 +16,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class generator implements @Nullable CommandExecutor {
@@ -26,38 +30,41 @@ public class generator implements @Nullable CommandExecutor {
         Player player = (Player) sender;
 
         //correct amount of arguments?
-        if (args.length!=1) {
-            Utils.sendError(player,"Incorrect arguments. usage: /generator <key>");
+        if (args.length != 1) {
+            Utils.sendError(player, "Incorrect arguments. usage: /generator <key>");
             return false;
         }
 
         Link data;
         //generate the data;
-        try { data = new Link(args[0],player); }
+        try { data = new Link(args[0], player); }
         catch (IOException e) { throw new RuntimeException(e); }
 
         //check if the key is valid. kick out if it is not
         if (data.selectionBBox == null) return false;
 
-        Images images;
-        //generate the images based on the data
-        try {images = new Images(data);}
-        catch (IOException e) { throw new RuntimeException(e); }
-        System.out.println("Images per Row " + images.images[0].length);
-        System.out.println("Total Image Rows " + images.images.length);
+        //initialize the images class
+        Images images = new Images(data);
+
+        //generate the in between tiles
+        ArrayList<int[]> tiles = images.getTiles();
+
+        //generate the images, pass in all tiles, zoom level, and the requester (Player)
+        this.getImages(tiles, data.selectionZoomLvl, (Player) sender);
+
+        //after this code is complete, it will call the second method
+        return false;
+    }
+
+    public void generatePost(HashMap<int[], BufferedImage> imgMap, Player p) {
 
         //create a map of each image and its heights
         HashMap<int[], int[][]> heights = new HashMap<>();
 
-        for (int i=0; i<images.images.length;i++) {
-            for (int j=0; j<images.images[i].length; j++) {
-                HeightHandler heightHandler = new HeightHandler(images.images[i][j]);
-                System.out.println("Square: " + i +", " + j);
-                heights.put(new int[]{i, j}, heightHandler.getHeight());
-            }
+        for (int[] image: imgMap.keySet()) {
+            HeightHandler heightHandler = new HeightHandler(imgMap.get(image));
+            heights.put(image, heightHandler.getHeight());
         }
-
-
 
         //create the world
         WorldCreator worldCreator = new WorldCreator("myWorld");
@@ -69,8 +76,40 @@ public class generator implements @Nullable CommandExecutor {
         World world = worldCreator.createWorld();
 
         //teleport the player to the world
-        ((Player) sender).teleport(world.getSpawnLocation());
+        p.teleport(world.getSpawnLocation());
+    }
 
-        return false;
+    private int task;
+    public void getImages(ArrayList<int[]> tileList, int zoom, Player requester) {
+
+        HashMap<int[], BufferedImage> images = new HashMap<>();
+        task = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.plugin, new Runnable() {
+            int i = 0;
+            @Override
+            public void run() {
+                //get tile from index
+                int[] current = tileList.get(i);
+
+                // try to add the tile to the image map
+                try { images.put(current, Utils.getTileImg(current[0],current[1], zoom)); }
+                catch (IOException e) { throw new RuntimeException(e); }
+
+
+
+                //increment index
+                i++;
+
+                // check if the index is out of bounds
+                if (tileList.size()<=i) {
+                    cancelTask(images, requester);
+                }
+
+            }
+        }, 0L, 5L);
+    }
+
+    public void cancelTask(HashMap<int[], BufferedImage> images, Player p) {
+        generatePost(images, p);
+        Bukkit.getScheduler().cancelTask(task);
     }
 }

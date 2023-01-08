@@ -15,15 +15,15 @@ let dataMap = new Map<string, Data>([
     }
   ],
   [
-    "d", 
+    "test1", 
     {
       bbox: {
-        east: -73.894901,
-        south: 42.794771,
-        west: -73.840828,
-        north: 42.827261,
+        east: -73.822632,
+        south: 42.747012,
+        west: -74.097290,
+        north: 42.882002
       },
-      zoom: 10
+      zoom: 14
     }
   ]
 ]);

@@ -4,12 +4,15 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import Map from '../components/Map'
 import Preview from '../components/Preview'
+import TestImg from '../components/TestImg'
+
 
 const Home: NextPage = () => {
 
   
   const map_width = (typeof window !== 'undefined') ? window.innerWidth/2 : 0;
   const map_height = (typeof window !== 'undefined') ? window.innerHeight: 0;
+
 
   //return the map
   return (
