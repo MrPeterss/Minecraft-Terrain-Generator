@@ -1,6 +1,6 @@
 import { useRef, useState, Suspense } from 'react'
 import { Canvas, useFrame, useLoader } from '@react-three/fiber'
-import GrassBlock from './GrassBlock';
+import PreviewMesh from './PreviewMesh';
 import { OrbitControls, PresentationControls, useTexture } from '@react-three/drei';
 import { PlaneGeometry, Vector3 } from 'three';
 
@@ -61,7 +61,7 @@ export default function Preview (props: PreviewProps) {
         <ambientLight intensity={0.8} />     
         <Suspense fallback={null}>
           <OrbitControls minDistance={50} maxDistance={100}/>
-          <GrassBlock x={0} y={0} z={0} scale={scale} cubes={256} subdivisionsX={64} subdivisionsZ={64} />
+          <PreviewMesh x={0} y={0} z={0} scale={scale} cubes={256} subdivisionsX={32} subdivisionsZ={32} />
         </Suspense>
     </Canvas>
   )

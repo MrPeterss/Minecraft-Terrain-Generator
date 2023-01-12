@@ -10,6 +10,7 @@
     "@react-three/cannon": "^6.5.2",
     "@react-three/drei": "^9.48.6",
     "@react-three/fiber": "^8.9.2",
+    "canvas": "^2.11.0",
     "isomorphic-unfetch": "^4.0.2",
     "next": "latest",
     "react": "18.2.0",

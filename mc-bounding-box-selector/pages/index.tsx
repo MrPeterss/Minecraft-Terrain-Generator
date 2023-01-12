@@ -4,12 +4,10 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import Map from '../components/Map'
 import Preview from '../components/Preview'
-import TestImg from '../components/TestImg'
-
+import getHeightMap from '../scripts/GetHeights'
 
 const Home: NextPage = () => {
 
-  
   const map_width = (typeof window !== 'undefined') ? window.innerWidth/2 : 0;
   const map_height = (typeof window !== 'undefined') ? window.innerHeight: 0;
 
@@ -26,7 +24,7 @@ const Home: NextPage = () => {
           <div className="top-0 left-0">
             <Map height={map_height.toString()} width={map_width.toString()} />
           </div>
-          <div className={'w-full top-0 left-'+map_width}>
+          <div className={'w-full top-0 left-'+map_width} id={'preview-side'}>
             <Preview />
           </div>
         </div>

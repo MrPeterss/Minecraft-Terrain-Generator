@@ -68,15 +68,22 @@ public class CustomChunkGenerator extends ChunkGenerator {
     }
 
     @Override
+    public boolean shouldGenerateSurface() {
+        return true;
+    }
+
+
+    @Override
     public void generateSurface(@NotNull WorldInfo worldInfo, @NotNull Random random, int chunkX, int chunkZ, @NotNull ChunkData chunkData) {
-        for (int x = 0; x < chunkX; x++) {
-            for (int z = 0; z < chunkZ; z++) {
-                chunkData.getBlockHeight(heights, x, z, min_height, max_height);
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                int rawX = x * chunkX;
+                int rawZ = z * chunkZ;
+                chunkData.setBlock(x, getBlockHeight(heights, rawX, rawZ, min_height, max_height), z, Material.GRASS_BLOCK);
             }
         }
     }
 
-    @Override
     public boolean shouldGenerateBedrock() {
         return true;
     }
@@ -105,12 +112,6 @@ public class CustomChunkGenerator extends ChunkGenerator {
     public boolean shouldGenerateStructures() {
         return true;
     }
-
-    @Override
-    public boolean shouldGenerateSurface() {
-        return true;
-    }
-
 
 
     private int getBlockHeight(int[][] array, int x, int z, int min, int max) {
