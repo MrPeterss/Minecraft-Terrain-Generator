@@ -9,8 +9,8 @@ type MapProps = {
 export default function Map(props:MapProps) {
 
   const { isLoaded } = useJsApiLoader({
-    id: '***REMOVED***',
-    googleMapsApiKey: "***REMOVED***"
+    id: 'zippy-tiger-373100',
+    googleMapsApiKey: "AIzaSyBAQtYeUM5iZ5cjm-dBJb_oktaZq4yRoM8"
   })
 
   const containerStyle = {

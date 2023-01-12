@@ -20,7 +20,7 @@ public class Utils {
 
 
     public static BufferedImage getTileImg(int x, int y, int zoom) throws IOException {
-        return getPngFromLink("https://tile.nextzen.org/tilezen/terrain/v1/512/terrarium/" + zoom + "/" + x + "/" + y + ".png?api_key=***REMOVED***");
+        return getPngFromLink("https://tile.nextzen.org/tilezen/terrain/v1/512/terrarium/" + zoom + "/" + x + "/" + y + ".png?api_key=4UPuzu1RQPWCC2_O-X1OyQ");
     }
 
     //get a png from a http req url

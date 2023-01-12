@@ -29,7 +29,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </main>
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key=***REMOVED***"></script>
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAQtYeUM5iZ5cjm-dBJb_oktaZq4yRoM8"></script>
     </div>
   )
 }
