@@ -1,4 +1,4 @@
-# Minecraft Terrain Generator
+# Real Life Terrain Generator for Minecraft
 A simple tool for creating realistic terrain from real world data in Minecraft
 
 ## About the Web App
