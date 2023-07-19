@@ -16,7 +16,7 @@ The plugin talks to the web app through HTTP requests, and also talks to Nextzen
 
 Example of Terrainium image
 
-<img width="600" alt="image" src="https://github.com/MrPeterss/Minecraft-Terrain-Generator/assets/86176234/1d850a14-72fa-4c36-be19-1048a96d820e">
+<img width="150" alt="image" src="https://github.com/MrPeterss/Minecraft-Terrain-Generator/assets/86176234/1d850a14-72fa-4c36-be19-1048a96d820e">
 
 Below is an image of the original bounding box selection from the image above, represented in google earth.
 
