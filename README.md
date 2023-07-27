@@ -9,7 +9,7 @@ The web app is a NextJS project written in Typescipt/TSX that allows users to se
 <img width="600" alt="image" src="https://github.com/MrPeterss/Minecraft-Terrain-Generator/assets/86176234/9fff8e61-5c1a-4b58-95f5-53bd068aca8f">
 
 ## About the Minecraft Plugin
-The second part of the project is the Paper Minecraft Plugin, which users will have to download and instll on their own Minecraft servers. Once this plugin is installed, the user can run the command "/generator <key>" (replacing key with the key that is given on the web app after making a bounding box selection). The plugin will then begin to generate the area associated with the key. This part works fully as intended!
+The second part of the project is the Paper Minecraft Plugin, which users will have to download and install on their own Minecraft servers. Once this plugin is installed, the user can run the command "/generator {key}" (replacing key with the key that is given on the web app after making a bounding box selection). The plugin will then begin to generate the area associated with the key. This part works fully as intended!
 
 ### How does the plugin work?
 The plugin talks to the web app through HTTP requests, and also talks to Nextzen, a long-term support version of Mapzen API service, which takes "Terrainium" images and uses math to translate the image into a heightmap that can be used by the server to generate the world.
